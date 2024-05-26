@@ -40,7 +40,7 @@ export default function WelcomeScreen() {
         <Text style={[tw`font-medium text-white tracking-widest`, { padding: hp(2) }]}>
           Food is always right
         </Text>
-      </View>
+  </View>
     </View>
   );
 }
