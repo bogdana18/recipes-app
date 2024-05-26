@@ -5,10 +5,14 @@ import tw from 'twrnc';
 import MasonryList from '@react-native-seoul/masonry-list';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import Loading from './loading';
+import { spaceY3,spaceY1 } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { CachedImage } from '../helpers/image';
 
 export default function Recipes({categories, meals}) {
+  const navigation = useNavigation();
   return (
-  <View style={tw`mx-4 space-y-3`}>
+  <View style={[tw`mx-4`, {spaceY3}]}>
     <Text style={[tw`font-semibold text-neutral-600`, {fontSize: hp(3)}]}>Recipes</Text>
     <View>
       {
@@ -20,7 +24,7 @@ export default function Recipes({categories, meals}) {
             keyExtractor={(item) => item.idMeal}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            renderItem={({item,i}) => <RecipeCard item={item} index={i} />}
+            renderItem={({item,i}) => <RecipeCard item={item} index={i} navigation={navigation}/>}
             onEndReachedThreshold={0.1}
           />
         )
@@ -30,15 +34,20 @@ export default function Recipes({categories, meals}) {
   )
 }
 
-const RecipeCard = ({item,index})=> {
+const RecipeCard = ({item,index,navigation})=> {
   let isEven = index%2 == 0;
   return (
   <Animated.View entering={FadeInDown.delay(index*100).duration(600).springify().damping(12)}>
     <Pressable
-      style={[tw`flex justify-center mb-4 space-y-1`, {width:'100%', paddingLeft: isEven? 0:8,paddingRight: isEven? 0:8}]}
+      onPress={() => navigation.navigate('RecipeDetail',{...item})}
+      style={[tw`flex justify-center mb-4`,{spaceY1}, {width:'100%', paddingLeft: isEven? 0:8,paddingRight: isEven? 0:8}]}
     >
-      <Image
+      {/*<Image
         source={{uri: item.strMealThumb}}
+        style={[tw`bg-black/5`,{width: '100%',height: index%3==0?hp(25): hp(35), borderRadius: 35}]}
+  />*/}
+     <CachedImage
+        uri={item.strMealThumb}
         style={[tw`bg-black/5`,{width: '100%',height: index%3==0?hp(25): hp(35), borderRadius: 35}]}
       />
       <Text style={[tw`font-semibold ml-2 text-neutral-600`, {fontSize: hp(1.5)}]}>

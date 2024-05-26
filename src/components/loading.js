@@ -4,8 +4,8 @@ import tw from 'twrnc';
 
 export default function Loading(props) {
   return (
-  <View style={tw`flex-1 flex justify-center items-center`}>
-    <ActivityIndicator {...props}/>
-  </View>
-  )
+    <View style={tw`flex-1 flex justify-center items-center`}>
+      <ActivityIndicator {...props}/>
+    </View>
+  );
 }

@@ -5,12 +5,12 @@ import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import tw from 'twrnc';
 import axios from 'axios';
-
+import { spaceY6,spaceY2 } from '../components/styles';
 import Categories from '../components/categories';
 import Recipes from '../components/recipes';
 
 export default function HomeScreen() {
-  const [activeCategory, setActiveCategory] = useState('Beef');
+  const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
 
@@ -27,13 +27,13 @@ export default function HomeScreen() {
 
   const getCategories = async ()=>{
     try{
-      const response = await axios.get('https://rthemealdb.com/api/json/v1/1/categories.php');
+      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
       //console.log('got categories',response.data);
       if(response && response.data) {
         setCategories(response.data.categories);
       }
     }catch(err){
-       console.log('error: ', err.message);
+       console.log('error1: ', err.message);
     }
   }
 
@@ -44,7 +44,7 @@ export default function HomeScreen() {
         setMeals(response.data.meals);
       }
     }catch(err){
-       console.log('error: ', err.message);
+       console.log('error2: ', err.message);
     }
   }
 
@@ -54,7 +54,7 @@ export default function HomeScreen() {
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingBottom: 50}}
-      style={tw`space-y-6 pt-14`}
+      style={[tw`pt-14`,{spaceY6}]}
     >
 
     <View style={tw `mx-4 flex-row justify-between items-center mb-2`}>
@@ -62,7 +62,7 @@ export default function HomeScreen() {
       <BellIcon size={hp(4)} color="grey"></BellIcon>
     </View>
 
-    <View style={tw`mx-4 space-y-2 mb-2`}>
+    <View style={[tw`mx-4 mb-2`,{spaceY2}]}>
       <Text style={[tw`text-neutral-600`, {fontSize: hp(1.7)}]}>Hello!</Text>
       <View>
         <Text style={[tw`font-semibold text-neutral-600`,{fontSize: hp(3.8)}]}>Make your own food,</Text>

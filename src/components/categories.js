@@ -3,6 +3,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import React from 'react';
 import tw from 'twrnc';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { CachedImage } from '../helpers/image';
 
 export default function Categories({categories,activeCategory,HandleChangeCategory}) {
   return (
@@ -24,10 +25,14 @@ export default function Categories({categories,activeCategory,HandleChangeCatego
               style={tw`flex items-center space-y-1`}
               >
                 <View style={tw`rounded-full p-[6px]`}>
-                  <Image 
+                  {/*<Image 
                     source={{uri: cat.strCategoryThumb}}
                     style={[tw`rounded-full`, {width: hp(6)}, {height: hp(6)}]}
-                  />
+            />*/}
+                    <CachedImage 
+                      uri={cat.strCategoryThumb}
+                      style={[tw`rounded-full`, {width: hp(6)}, {height: hp(6)}]}
+                    />
                   <Text style={[tw`text-neutral-600`,{fontSize: hp(1.6)}]}>
                     {cat.strCategory}
                   </Text>
