@@ -5,13 +5,14 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
-import { ChevronLeftIcon, ClockIcon } from 'react-native-heroicons/outline';
-import { HeartIcon } from 'react-native-heroicons/solid';
+import { ChevronLeftIcon, ClockIcon, Square3Stack3DIcon } from 'react-native-heroicons/outline';
+import { HeartIcon, UserIcon, FireIcon } from 'react-native-heroicons/solid';
 import { CachedImage } from '../helpers/image';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { spaceY4,spaceY2 } from '../components/styles';
-import { Loading } from '../components/loading';
+import Loading  from '../components/loading';
+import YouTubeIframe from 'react-native-youtube-iframe';
 
 export default function RecipeDetailScreen(props) {
   let item = props.route.params;
@@ -34,6 +35,28 @@ export default function RecipeDetailScreen(props) {
     }catch(err){
        console.log('error2: ', err.message);
     }
+  }
+
+  const ingredientsIndexes = (meal) => {
+    if(!meal) return [];
+    let indexes = [];
+    for (let i = 1; i <= 20; i++ ) {
+      if(meal['strIngredient']+i) {
+        indexes.push(i);  
+      }
+    }
+
+    return indexes;
+  }
+
+  const getYouTubeVideoId = url => {
+    const reqex = /[?&]v=([^&]+)/;
+    const match = url.match(reqex);
+    if (match && match[1]){
+      return match[1];
+    }
+
+    return null;
   }
 
   return (
@@ -94,14 +117,113 @@ export default function RecipeDetailScreen(props) {
 
                 <View style={tw`flex items-center py-2 justify-center`}>
                   <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(2)}]}>
-                    -
+                    35
                   </Text>
                   <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(1.3)}]}>
                     Mins
                   </Text>
                 </View>
               </View>
+
+              <View style={tw`flex rounded-full bg-amber-300 p-2`}>
+                <View style={[{height: hp(6.5), width: hp(6.5)}, tw`bg-white rounded-full flex item-center justify-center`]}>
+                  <UserIcon size={hp(4)} strokeWidth={2.5} color="#525252"/>
+                </View>
+
+                <View style={tw`flex items-center py-2 justify-center`}>
+                  <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(2)}]}>
+                    03
+                  </Text>
+                  <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(1.3)}]}>
+                    Servings
+                  </Text>
+                </View>
+              </View>
+
+              <View style={tw`flex rounded-full bg-amber-300 p-2`}>
+                <View style={[{height: hp(6.5), width: hp(6.5)}, tw`bg-white rounded-full flex item-center justify-center`]}>
+                  <FireIcon size={hp(4)} strokeWidth={2.5} color="#525252"/>
+                </View>
+
+                <View style={tw`flex items-center py-2 justify-center`}>
+                  <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(2)}]}>
+                    103
+                  </Text>
+                  <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(1.3)}]}>
+                    Cal
+                  </Text>
+                </View>
+              </View>
+
+              <View style={tw`flex rounded-full bg-amber-300 p-2`}>
+                <View style={[{height: hp(6.5), width: hp(6.5)}, tw`bg-white rounded-full flex item-center justify-center`]}>
+                  <Square3Stack3DIcon size={hp(4)} strokeWidth={2.5} color="#525252"/>
+                </View>
+
+                <View style={tw`flex items-center py-2 justify-center`}>
+                  <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(2)}]}>
+                    
+                  </Text>
+                  <Text style={[tw`font-bold text-neutral-700`,{fontSize:hp(1.3)}]}>
+                    Easy
+                  </Text>
+                </View>
+              </View>
             </View>
+            
+            {/*Ingredients*/}
+            <View style={tw`space-y-4`}>
+              <Text style={[{fontSize: hp(1.5)},tw`font-bold flex-1 text-neutral-700`]}>
+                Ingredients
+              </Text>
+
+              <View style={[tw`ml-3`, {spaceY2}]}>
+                {
+                  ingredientsIndexes(meal).map(i=>{
+                    return (
+                      <View key={i} style={tw`flex-row space-x-4`}>
+                        <View style={[{height: hp(1.5), width: hp(1.5)}, tw`bg-amber-500 rounded-full`]}/>
+                        
+                        <View style={tw`space-row space-x-2`}>
+                          <Text style={[tw`font-extrabold text-neutral-700`, {fontSize: hp(1.7)}]}>{meal['strMeasure'+i]}</Text>
+                          <Text style={[tw`font-medium text-neutral-600`,{fontSize: hp(1.7)}]}>{meal['strIngredient'+i]}</Text>
+
+                        </View>
+                      </View>
+                    )
+                  })
+                }
+              </View>
+            </View>
+
+            <View style={tw`space-y-4`}>
+              <Text style={[{fontSize: hp(1.5)},tw`font-bold flex-1 text-neutral-700`]}>
+                Instructions
+              </Text>
+              <Text style={[tw`text-neutral-700`, {fontSize: hp(1.6)}]}>
+                {
+                  meal?.strInstructions
+                }
+              </Text>
+            </View>
+
+          {/*Ingredients*/}
+          {
+            meal?.strYoutube && (
+              <View style={tw`space-x-4`}>
+                <Text style={[tw`font-bold flex-1 text-neutral-700`,{fontSize: hp(2.5)}]}>
+                  Recipe Video
+                </Text>
+
+                <View>
+                  <YouTubeIframe 
+                    videoId={getYouTubeVideoId(meal.strYoutube)}
+                    height={hp(30)}
+                  />
+                </View>
+              </View>
+            )
+          }
           </View>
         )
       }
