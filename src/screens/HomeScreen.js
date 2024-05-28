@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(()=> {
     getCategories();
@@ -48,6 +49,8 @@ export default function HomeScreen() {
     }
   }
 
+  const filteredMeals = meals.filter(meal => meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()));
+
   return (
     <View style={tw`flex-1 bg-white`}>
     <StatusBar style='dark'/>
@@ -74,6 +77,8 @@ export default function HomeScreen() {
 
     <View style={tw`mx-4 flex-row items-center rounded-full bg-black/5 p-[6px]`}>
       <TextInput 
+        value={searchQuery}
+        onChangeText={(text) => setSearchQuery(text)}
         placeholder='Search any recipe'
         placeholderTextColor={'grey'}
         style={[tw`flex-1 text-base mb-1 pl-3 tracking-wider`,{fontSize: hp(1.7)}]}
@@ -94,7 +99,7 @@ export default function HomeScreen() {
     </View>
     {/*recipes*/}
     <View>
-      <Recipes categories={categories} meals={meals}/>
+      <Recipes categories={categories} meals={filteredMeals}/>
     </View>
 
     </ScrollView>
