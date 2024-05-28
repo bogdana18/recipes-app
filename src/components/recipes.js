@@ -49,6 +49,7 @@ const RecipeCard = ({item,index,navigation})=> {
      <CachedImage
         uri={item.strMealThumb}
         style={[tw`bg-black/5`,{width: '100%',height: index%3==0?hp(25): hp(35), borderRadius: 35}]}
+        sharedTransitioTag={item.strMeal}
       />
       <Text style={[tw`font-semibold ml-2 text-neutral-600`, {fontSize: hp(1.5)}]}>
         {

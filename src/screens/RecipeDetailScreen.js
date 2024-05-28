@@ -2,7 +2,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, { useSharedValue, withSpring, FadeInDown, FadeIn } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import { ChevronLeftIcon, ClockIcon, Square3Stack3DIcon } from 'react-native-heroicons/outline';
@@ -70,11 +70,12 @@ export default function RecipeDetailScreen(props) {
       <View style={tw`flex-row justify-center`}>
         <CachedImage
           uri={item.strMealThumb}
+          sharedTransitioTag={item.strMeal}
           style={{width: wp(98), height: hp(50), borderRadius: 53, borderBottomLeftRadius: 40,borderBottomRightRadius: 40, marginTop: 4}}
         />
       </View>
 
-      <View style={tw`w-full absolute flex-row items-center justify-between pt-14`}>
+      <Animated.View entering={FadeIn.delay(200).duration(1000)} style={tw`w-full absolute flex-row items-center justify-between pt-14`}>
         <TouchableOpacity 
           style={tw`p-2 rounded-full ml-5 bg-white`}
           onPress={()=>navigation.goBack()}
@@ -88,7 +89,7 @@ export default function RecipeDetailScreen(props) {
         >
           <HeartIcon size={hp(3.5)} strokeWidth={4.5} color={isFavourite? "red": "gray"}/>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
 
       {/*Meal desc */}
       {
@@ -96,7 +97,7 @@ export default function RecipeDetailScreen(props) {
           <Loading size="large" style={tw`mt-16`}/>
         ): 
         (
-          <View style={[tw`px-4 flex justify-between pt-8`,{spaceY4}]}>
+          <Animated.View entering={FadeInDown.duration(700).springify().damping(12)} style={[tw`px-4 flex justify-between pt-8`,{spaceY4}]}>
             <View style={spaceY2}>
               <Text style={[{fontSize: hp(3)}, tw`font-bold flex-1 text-neutral-700`]}>
                 {meal?.strMeal}
@@ -109,7 +110,7 @@ export default function RecipeDetailScreen(props) {
 
             {/*misc*/}
 
-            <View style={tw`flex-row justify-around`}>
+            <Animated.View entering={FadeInDown.delay(100).duration(700).springify().damping(12)} style={tw`flex-row justify-around`}>
               <View style={tw`flex rounded-full bg-amber-300 p-2`}>
                 <View style={[{height: hp(6.5), width: hp(6.5)}, tw`bg-white rounded-full flex item-center justify-center`]}>
                   <ClockIcon size={hp(4)} strokeWidth={2.5} color="#525252"/>
@@ -169,10 +170,10 @@ export default function RecipeDetailScreen(props) {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Animated.View>
             
             {/*Ingredients*/}
-            <View style={tw`space-y-4`}>
+            <Animated.View entering={FadeInDown.delay(200).duration(700).springify().damping(12)} style={tw`space-y-4`}>
               <Text style={[{fontSize: hp(1.5)},tw`font-bold flex-1 text-neutral-700`]}>
                 Ingredients
               </Text>
@@ -194,9 +195,9 @@ export default function RecipeDetailScreen(props) {
                   })
                 }
               </View>
-            </View>
+            </Animated.View>
 
-            <View style={tw`space-y-4`}>
+            <Animated.View entering={FadeInDown.delay(300).duration(700).springify().damping(12)} style={tw`space-y-4`}>
               <Text style={[{fontSize: hp(1.5)},tw`font-bold flex-1 text-neutral-700`]}>
                 Instructions
               </Text>
@@ -205,12 +206,12 @@ export default function RecipeDetailScreen(props) {
                   meal?.strInstructions
                 }
               </Text>
-            </View>
+            </Animated.View>
 
           {/*Ingredients*/}
           {
             meal?.strYoutube && (
-              <View style={tw`space-x-4`}>
+              <Animated.View entering={FadeInDown.delay(400).duration(700).springify().damping(12)} style={tw`space-x-4`}>
                 <Text style={[tw`font-bold flex-1 text-neutral-700`,{fontSize: hp(2.5)}]}>
                   Recipe Video
                 </Text>
@@ -221,10 +222,10 @@ export default function RecipeDetailScreen(props) {
                     height={hp(30)}
                   />
                 </View>
-              </View>
+              </Animated.View>
             )
           }
-          </View>
+          </Animated.View>
         )
       }
     </ScrollView>
