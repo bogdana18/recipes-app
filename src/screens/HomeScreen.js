@@ -1,29 +1,31 @@
 import { View, Text, ScrollView, Image, TextInput } from 'react-native';
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
+import { HeartIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import tw from 'twrnc';
 import axios from 'axios';
-import { spaceY6,spaceY2 } from '../components/styles';
+import { styles } from '../components/styles';
 import Categories from '../components/categories';
 import Recipes from '../components/recipes';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
-  const [activeCategory, setActiveCategory] = useState("Beef");
+  const [activeCategory, setActiveCategory] = useState("Dessert");
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigation = useNavigation();
 
-  useEffect(()=> {
-    getCategories();
-    getRecipes();
-  },[]);
-
-  const HandleChangeCategory = (category) =>{
-    getRecipes(category);
-    setActiveCategory(category);
-    setMeals([]);
+  const getRecipes = async (category="Dessert")=>{
+    try{
+      const response = await axios.get(`https://themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      if(response && response.data) {
+        setMeals(response.data.meals);
+      }
+    }catch(err){
+       console.log('error2: ', err.message);
+    }
   }
 
   const getCategories = async ()=>{
@@ -38,15 +40,15 @@ export default function HomeScreen() {
     }
   }
 
-  const getRecipes = async (category="Beef")=>{
-    try{
-      const response = await axios.get(`https://themealdb.com/api/json/v1/1/filter.php?c=${category}`);
-      if(response && response.data) {
-        setMeals(response.data.meals);
-      }
-    }catch(err){
-       console.log('error2: ', err.message);
-    }
+  useEffect(()=> {
+    getCategories();
+    getRecipes();
+  },[]);
+
+  const HandleChangeCategory = (category) =>{
+    getRecipes(category);
+    setActiveCategory(category);
+    setMeals([]);
   }
 
   const filteredMeals = meals.filter(meal => meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -57,25 +59,25 @@ export default function HomeScreen() {
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingBottom: 50}}
-      style={[tw`pt-14`,{spaceY6}]}
+      style={[tw`pt-14`,styles.spaceY6]}
     >
 
     <View style={tw `mx-4 flex-row justify-between items-center mb-2`}>
       <Image source={require("../../assets/avatar-girl-svgrepo-com.png")} style={{height: hp(5), width: hp(5.5)}}/>
-      <BellIcon size={hp(4)} color="grey"></BellIcon>
+      <HeartIcon size={hp(4)} color="gray" onPress={() => navigation.navigate('MapScreen')}/>
     </View>
 
-    <View style={[tw`mx-4 mb-2`,{spaceY2}]}>
+    <View style={[tw`mx-4 mb-2`,styles.spaceY3]}>
       <Text style={[tw`text-neutral-600`, {fontSize: hp(1.7)}]}>Hello!</Text>
       <View>
-        <Text style={[tw`font-semibold text-neutral-600`,{fontSize: hp(3.8)}]}>Make your own food,</Text>
+        <Text style={[tw`font-semibold text-neutral-600`,styles.spaceY4,{fontSize: hp(3.8)}]}>Find your own recipe</Text>
       </View>
       <Text style={[tw`font-semibold text-neutral-600`,{fontSize: hp(3.8)}]}>
-        stay at <Text style={tw`text-amber-400`}>home</Text>
+        <Text style={tw`text-amber-400`}>recipe</Text>
       </Text>
     </View>
 
-    <View style={tw`mx-4 flex-row items-center rounded-full bg-black/5 p-[6px]`}>
+    <View style={[tw`mx-4 flex-row items-center rounded-full bg-black/5 p-[6px]`,styles.spaceY2]}>
       <TextInput 
         value={searchQuery}
         onChangeText={(text) => setSearchQuery(text)}
