@@ -23,11 +23,9 @@
 ![alt][fav]
 ![alt][map-popup]
 
-[home]: ../assets/home.png (Home screen)
-[search]: ../assets/search.png (Search)
-[detail]: ../assets/detail.png (detail)
-[detail2]: ../assets/detail2.png (Detail2)
-[fav]: ../assets/fav.png (Fav)
-[map-popup]: ../assets/map-popup.png (Map with markers and popup)
-
-### Відео роботи додатку:
+[home]:  /assets/home.png (Home screen)
+[search]: /assets/search.png (Search)
+[detail]: /assets/detail.png (detail)
+[detail2]: /assets/detail2.png (Detail2)
+[fav]: /assets/fav.png (Fav)
+[map-popup]: /assets/map-popup.png (Map with markers and popup)
