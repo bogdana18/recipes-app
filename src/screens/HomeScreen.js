@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Image, TextInput } from 'react-native';
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { HeartIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
+import { HeartIcon, MagnifyingGlassIcon, MapPinIcon } from "react-native-heroicons/outline";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import tw from 'twrnc';
 import axios from 'axios';
@@ -64,11 +64,11 @@ export default function HomeScreen() {
 
     <View style={tw `mx-4 flex-row justify-between items-center mb-2`}>
       <Image source={require("../../assets/avatar-girl-svgrepo-com.png")} style={{height: hp(5), width: hp(5.5)}}/>
-      <HeartIcon size={hp(4)} color="gray" onPress={() => navigation.navigate('MapScreen')}/>
+      <MapPinIcon size={hp(4)} color="gray" onPress={() => navigation.navigate('MapScreen')}/>
+      <HeartIcon size={hp(4)} color="gray" onPress={() => navigation.navigate('FavouritesScreen')}/>
     </View>
 
     <View style={[tw`mx-4 mb-2`,styles.spaceY3]}>
-      <Text style={[tw`text-neutral-600`, {fontSize: hp(1.7)}]}>Hello!</Text>
       <View>
         <Text style={[tw`font-semibold text-neutral-600`,styles.spaceY4,{fontSize: hp(3.8)}]}>Find your own recipe</Text>
       </View>

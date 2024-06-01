@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import tw from 'twrnc';
 import { useNavigation } from '@react-navigation/native';
 import { getFavouriteRecipes } from '../helpers/storage';
 import { CachedImage } from '../helpers/image';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 
 export default function FavouritesScreen() {
   const [favourites, setFavourites] = useState([]);
@@ -26,6 +27,12 @@ export default function FavouritesScreen() {
         contentContainerStyle={{ paddingBottom: 50 }}
         style={tw`pt-14`}
       >
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('Home')} 
+        >
+          <ChevronLeftIcon strokeWidth={4.5} color="#black"/>
+        </TouchableOpacity>
         <Text style={tw`text-xl font-bold text-center my-4`}>Favourites</Text>
         <View style={tw`px-4`}>
           {favourites.length === 0 ? (
@@ -51,4 +58,27 @@ export default function FavouritesScreen() {
       </ScrollView>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    padding: 10,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  backButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+  },
+});
