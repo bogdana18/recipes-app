@@ -29,12 +29,12 @@ export default function FavouritesScreen() {
       >
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.navigate('Home')} 
+          onPress={() => navigation.goBack()}
         >
-          <ChevronLeftIcon strokeWidth={4.5} color="#black"/>
+          <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color="black" />
         </TouchableOpacity>
         <Text style={tw`text-xl font-bold text-center my-4`}>Favourites</Text>
-        <View style={tw`px-4`}>
+        <View style={[tw`px-4`,styles.space24]}>
           {favourites.length === 0 ? (
             <Text style={tw`text-center text-gray-500`}>No favourite recipes yet.</Text>
           ) : (
@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  space24: {
+    marginTop: 46
   },
   backButtonText: {
     color: '#000',

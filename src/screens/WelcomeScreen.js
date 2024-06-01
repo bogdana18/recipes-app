@@ -38,7 +38,7 @@ export default function WelcomeScreen() {
         <Text style={[tw`font-bold text-white tracking-widest`, { fontSize: hp(7) }]}>
           Foody
         </Text>
-        <Text style={[tw`font-medium text-white tracking-widest`, { padding: hp(2) }]}>
+        <Text style={[tw`font-medium text-white tracking-widest`, { padding: hp(2),fontSize: hp(2.5) }]}>
           Food is always right
         </Text>
   </View>

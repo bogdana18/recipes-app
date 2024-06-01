@@ -1,16 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Функція для отримання вподобаних рецептів
+// Function to get favourite recipes
 export const getFavouriteRecipes = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem('favourites');
     return jsonValue != null ? JSON.parse(jsonValue) : [];
-  } catch(e) {
+  } catch (e) {
     console.error("Failed to fetch favourites", e);
   }
-}
+};
 
-// Функція для збереження вподобаних рецептів
+// Function to save favourite recipes
 export const saveFavouriteRecipes = async (favourites) => {
   try {
     const jsonValue = JSON.stringify(favourites);
@@ -18,4 +18,4 @@ export const saveFavouriteRecipes = async (favourites) => {
   } catch (e) {
     console.error("Failed to save favourites", e);
   }
-}
+};

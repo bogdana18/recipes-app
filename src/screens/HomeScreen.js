@@ -59,7 +59,7 @@ export default function HomeScreen() {
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingBottom: 50}}
-      style={[tw`pt-14`,styles.spaceY6]}
+      style={[tw`pt-14`]}
     >
 
     <View style={tw `mx-4 flex-row justify-between items-center mb-2`}>
